@@ -36,13 +36,23 @@ def post_screenshot(post_text, green_text, image_path, name='Anonymous', filenam
 
     c_img = cv.imread(image_path)
 
+    img_width = 0
+    img_height = 0
+    if type(c_img)!=type(None):
+        img_width = c_img.shape[1]
+        img_height = c_img.shape[0]
+
+    img_size = 0
+    if os.path.exists(image_path):
+        img_size = os.path.getsize(image_path)
+
     replacements['FINDANDREPLACEME_TEXTBODY'] = post_text
     replacements['FINDANDREPLACEME_GREENTEXT'] = green_text
     replacements['FINDANDREPLACEME_FILENAME'] = filename
     replacements['FINDANDREPLACEME_IMG'] = image_path
-    replacements['FINDANDREPLACEME_IMGWIDTH'] = c_img.shape[1]
-    replacements['FINDANDREPLACEME_IMGHEIGHT'] = c_img.shape[0]
-    replacements['FINDANDREPLACEME_IMAGESIZE'] = str(round(os.path.getsize(image_path)/1024, 1))+' KB'
+    replacements['FINDANDREPLACEME_IMGWIDTH'] = img_width
+    replacements['FINDANDREPLACEME_IMGHEIGHT'] = img_height
+    replacements['FINDANDREPLACEME_IMAGESIZE'] = str(round(img_size/1024, 1))+' KB'
     replacements['FINDANDREPLACEME_POSTERNAME'] = name
 
     oppost_num = random.randrange(10000000, 100000000)
